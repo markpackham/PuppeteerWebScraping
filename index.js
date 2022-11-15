@@ -1,4 +1,6 @@
 const puppeteer = require("puppeteer");
+// fs is the file system module which comes as part of the node_modules
+const fs = require("fs");
 
 async function run() {
   const browser = await puppeteer.launch();
@@ -53,7 +55,13 @@ async function run() {
       promo: e.querySelector(".card-footer .promo-code .promo").innerText,
     }))
   );
-  console.log(courses);
+  // console.log(courses);
+
+  // Save data to json file
+  fs.writeFile("courses.json", JSON.stringify(courses), (err) => {
+    if (err) throw err;
+    console.log("File saved");
+  });
 
   await browser.close();
 }
