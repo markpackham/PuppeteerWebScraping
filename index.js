@@ -24,8 +24,36 @@ async function run() {
   // console.log(title);
 
   // text of the page
-  const text = await page.evaluate(() => document.body.innerText);
-  console.log(text);
+  // const text = await page.evaluate(() => document.body.innerText);
+  // console.log(text);
+
+  // all links on a page
+  // const links = await page.evaluate(() =>
+  //   Array.from(document.querySelectorAll("a"), (e) => e.href)
+  // );
+  // console.log(links);
+
+  // Get Traversy Media courses info
+  // const courses = await page.evaluate(() =>
+  //   Array.from(document.querySelectorAll("#courses .card"), (e) => ({
+  //     title: e.querySelector(".card-body h3").innerText,
+  //     level: e.querySelector(".card-body .level").innerText,
+  //     url: e.querySelector(".card-footer a").href,
+  //     promo: e.querySelector(".card-footer .promo-code .promo").innerText,
+  //   }))
+  // );
+  // console.log(courses);
+
+  // Get Traversy Media courses info (same as above but using $$eval instead of evaluate)
+  const courses = await page.$$eval("#courses .card", (elements) =>
+    elements.map((e) => ({
+      title: e.querySelector(".card-body h3").innerText,
+      level: e.querySelector(".card-body .level").innerText,
+      url: e.querySelector(".card-footer a").href,
+      promo: e.querySelector(".card-footer .promo-code .promo").innerText,
+    }))
+  );
+  console.log(courses);
 
   await browser.close();
 }
